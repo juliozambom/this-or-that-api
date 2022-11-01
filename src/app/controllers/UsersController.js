@@ -53,7 +53,11 @@ class UsersController {
 
     const { name, email } = req.body;
 
-    const updatedUser = await UsersRepository.update({ parseId, name, email });
+    const updatedUser = await UsersRepository.update({
+      id: parseId,
+      name,
+      email,
+    });
 
     return res.status(200).json({
       message: "Usuário atualizado com sucesso",

@@ -44,6 +44,11 @@ class UsersRepository {
         name,
         email,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+      },
     });
 
     return updatedUser;
