@@ -50,7 +50,7 @@ class UsersRepository {
   }
 
   async delete(id) {
-    const deletedUser = await user.delete({
+    const deletedUser = await user.deleteMany({
       where: {
         id,
       },

@@ -27,7 +27,6 @@ class QuestionsController {
       message: "Questão encontrada",
       question,
     });
-    s;
   }
 
   async store(req, res) {
