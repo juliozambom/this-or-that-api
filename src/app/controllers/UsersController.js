@@ -91,11 +91,18 @@ class UsersController {
     const { id } = req.params;
     const parseId = Number(id);
 
-    const deletedUser = await UsersRepository.delete(parseId);
+    const userExists = await UsersRepository.findById(parseId);
+
+    if (!userExists) {
+      return res.status(400).json({
+        message: "Esse usuário não existe",
+      });
+    }
+
+    await UsersRepository.delete(parseId);
 
     return res.status(200).json({
       message: "Usuário deletado com sucesso",
-      deletedUser,
     });
   }
 }
