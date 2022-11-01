@@ -1,5 +1,7 @@
 const UsersRepository = require("../repositories/UsersRepository");
 
+const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
+
 class UsersController {
   async index(req, res) {
     const users = await UsersRepository.findAll();
@@ -32,6 +34,15 @@ class UsersController {
   async store(req, res) {
     const { name, email, password } = req.body;
 
+    const emptyFieldExists = isSomeFieldEmpty([name, email, password]);
+
+    if (emptyFieldExists) {
+      return res.status(400).json({
+        message: "Preencha todos os campos corretamente",
+        user: null,
+      });
+    }
+
     const createdUser = await UsersRepository.create({ name, email, password });
 
     if (!createdUser) {
@@ -52,6 +63,17 @@ class UsersController {
     const parseId = Number(id);
 
     const { name, email } = req.body;
+
+    const emptyFieldExists = isSomeFieldEmpty([name, email]);
+
+    console.log(name, email);
+
+    if (emptyFieldExists) {
+      return res.status(400).json({
+        message: "Preencha todos os campos corretamente",
+        user: null,
+      });
+    }
 
     const updatedUser = await UsersRepository.update({
       id: parseId,
