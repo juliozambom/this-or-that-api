@@ -1,6 +1,8 @@
-const UsersRepository = require("../repositories/UsersRepository");
+const bcrypt = require("bcrypt");
 
 const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
+
+const UsersRepository = require("../repositories/UsersRepository");
 
 class UsersController {
   async index(req, res) {
@@ -43,7 +45,13 @@ class UsersController {
       });
     }
 
-    const createdUser = await UsersRepository.create({ name, email, password });
+    const hashedPassword = await bcrypt.hash(password, 8);
+
+    const createdUser = await UsersRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
 
     if (!createdUser) {
       return res.status(400).json({
