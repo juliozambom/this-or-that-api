@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const http = require("http");
-const cors = require("cors");
 const { Server } = require("socket.io");
+const cors = require("cors");
 
 const server = http.createServer(app);
 
@@ -12,9 +12,9 @@ const usersRoutes = require("./app/routes/UsersRoutes");
 app.use(cors());
 app.use(express.json());
 
-const io = new Server({
+const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5000",
+    origin: "*",
   },
   methods: ["GET", "POST"],
 });
