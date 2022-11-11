@@ -31,6 +31,7 @@ class QuestionsController {
   }
 
   async store(req, res) {
+    const socket = req.io;
     const { questionContent, firstOption, secondOption } = req.body;
 
     const emptyFieldExists = isSomeFieldEmpty([
@@ -58,6 +59,9 @@ class QuestionsController {
         questionCreated: null,
       });
     }
+
+    //SOCKET.IO
+    socket.emit("question-created", question);
 
     return res.status(200).json({
       message: "Questão criada com sucesso",
