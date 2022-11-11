@@ -18,13 +18,14 @@ class QuestionsRepository {
     return questionExists;
   }
 
-  async create({ question_content, first_option, second_option }) {
+  async create({ question_content, first_option, second_option, user_id }) {
     try {
       const questionCreated = await question.create({
         data: {
           question: question_content,
           first_option,
           second_option,
+          user_id,
         },
       });
 
