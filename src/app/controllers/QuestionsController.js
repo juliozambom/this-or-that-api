@@ -36,7 +36,6 @@ class QuestionsController {
     const socket = req.io;
     const { questionContent, firstOption, secondOption } = req.body;
     const userId = req.userId;
-    console.log(userId);
 
     const emptyFieldExists = isSomeFieldEmpty([
       questionContent,
