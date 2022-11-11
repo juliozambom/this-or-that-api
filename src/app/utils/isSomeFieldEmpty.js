@@ -1,5 +1,5 @@
 function isSomeFieldEmpty(fields) {
-  return fields.includes(undefined);
+  return fields.includes(undefined || "");
 }
 
 module.exports = isSomeFieldEmpty;
