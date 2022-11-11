@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -8,6 +9,7 @@ const server = http.createServer(app);
 
 const questionsRoutes = require("./app/routes/QuestionRoutes");
 const usersRoutes = require("./app/routes/UsersRoutes");
+const AuthMiddleware = require("./app/middlewares/AuthMiddleware");
 
 const io = new Server(server, {
   cors: {
@@ -29,6 +31,7 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => res.send("This or That 🔴🔵"));
 
+app.use(AuthMiddleware);
 app.use(questionsRoutes);
 app.use(usersRoutes);
 
