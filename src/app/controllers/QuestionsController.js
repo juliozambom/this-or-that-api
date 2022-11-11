@@ -46,18 +46,18 @@ class QuestionsController {
       });
     }
 
+    const question = await QuestionsRepository.create({
+      question_content: questionContent,
+      first_option: firstOption,
+      second_option: secondOption,
+    });
+
     if (!question) {
       return res.status(400).json({
         message: "Não foi possível criar a questão",
         questionCreated: null,
       });
     }
-
-    const question = await QuestionsRepository.create({
-      question_content: questionContent,
-      first_option: firstOption,
-      second_option: secondOption,
-    });
 
     return res.status(200).json({
       message: "Questão criada com sucesso",
