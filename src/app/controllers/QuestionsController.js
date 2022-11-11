@@ -36,16 +36,6 @@ class QuestionsController {
     const socket = req.io;
     const { questionContent, firstOption, secondOption, userId } = req.body;
 
-    const parseUserId = Number(userId);
-    const userExists = await UsersRepository.findById(parseUserId);
-
-    if (!userExists) {
-      return res.status(400).json({
-        message: "Não foi possível encontrar um membro com este id",
-        questionCreated: null,
-      });
-    }
-
     const emptyFieldExists = isSomeFieldEmpty([
       questionContent,
       firstOption,
@@ -56,6 +46,16 @@ class QuestionsController {
     if (emptyFieldExists) {
       return res.status(400).json({
         message: "Campos obrigatórios não foram enviados",
+        questionCreated: null,
+      });
+    }
+
+    const parseUserId = Number(userId);
+    const userExists = await UsersRepository.findById(parseUserId);
+
+    if (!userExists) {
+      return res.status(400).json({
+        message: "Não foi possível encontrar um membro com este id",
         questionCreated: null,
       });
     }
