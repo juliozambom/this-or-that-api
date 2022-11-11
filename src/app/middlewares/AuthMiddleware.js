@@ -14,10 +14,10 @@ function AuthMiddleware(req, res, next) {
 
   try {
     const tokenDecoded = jwt.verify(token, process.env.SECRET);
+    const { id } = tokenDecoded;
 
     if (tokenDecoded) {
-      req.token = tokenDecoded;
-      req.auth = true;
+      req.userId = Number(id);
       next();
     } else {
       return res.status(401).json({
