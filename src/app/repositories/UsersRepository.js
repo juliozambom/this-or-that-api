@@ -18,6 +18,16 @@ class UsersRepository {
     return userExists;
   }
 
+  async findByEmail(email) {
+    const userExists = await user.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    return userExists;
+  }
+
   async create({ name, email, password }) {
     try {
       const userCreated = await user.create({
