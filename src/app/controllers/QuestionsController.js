@@ -34,7 +34,9 @@ class QuestionsController {
 
   async store(req, res) {
     const socket = req.io;
-    const { questionContent, firstOption, secondOption, userId } = req.body;
+    const { questionContent, firstOption, secondOption } = req.body;
+    const userId = req.userId;
+    console.log(userId);
 
     const emptyFieldExists = isSomeFieldEmpty([
       questionContent,
@@ -50,21 +52,11 @@ class QuestionsController {
       });
     }
 
-    const parseUserId = Number(userId);
-    const userExists = await UsersRepository.findById(parseUserId);
-
-    if (!userExists) {
-      return res.status(400).json({
-        message: "Não foi possível encontrar um membro com este id",
-        questionCreated: null,
-      });
-    }
-
     const question = await QuestionsRepository.create({
       question_content: questionContent,
       first_option: firstOption,
       second_option: secondOption,
-      user_id: parseUserId,
+      user_id: userId,
     });
 
     if (!question) {
