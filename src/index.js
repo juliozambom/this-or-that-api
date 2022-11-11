@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const server = http.createServer(app);
 
+const authRoutes = require("./app/routes/AuthRoutes");
 const questionsRoutes = require("./app/routes/QuestionRoutes");
 const usersRoutes = require("./app/routes/UsersRoutes");
 const AuthMiddleware = require("./app/middlewares/AuthMiddleware");
@@ -30,8 +31,10 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => res.send("This or That 🔴🔵"));
+app.use(authRoutes);
 
 app.use(AuthMiddleware);
+
 app.use(questionsRoutes);
 app.use(usersRoutes);
 

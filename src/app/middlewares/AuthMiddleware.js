@@ -27,7 +27,7 @@ function AuthMiddleware(req, res, next) {
     }
   } catch (error) {
     return res.status(401).json({
-      message: "Algo deu errado na verificação do token",
+      message: "O token fornecido é inválido",
       auth: false,
     });
   }
