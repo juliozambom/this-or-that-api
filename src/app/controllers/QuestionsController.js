@@ -1,4 +1,5 @@
 const QuestionsRepository = require("../repositories/QuestionsRepository");
+const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
 
 class QuestionsController {
   async index(req, res) {
@@ -37,6 +38,19 @@ class QuestionsController {
       first_option: firstOption,
       second_option: secondOption,
     });
+
+    const emptyFieldExists = isSomeFieldEmpty([
+      questionContent,
+      firstOption,
+      secondOption,
+    ]);
+
+    if (emptyFieldExists) {
+      res.status(400).json({
+        message: "Campos obrigatórios não foram enviados",
+        questionCreated: null,
+      });
+    }
 
     if (!question) {
       res.status(400).json({
