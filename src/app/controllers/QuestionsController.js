@@ -33,12 +33,6 @@ class QuestionsController {
   async store(req, res) {
     const { questionContent, firstOption, secondOption } = req.body;
 
-    const question = await QuestionsRepository.create({
-      question_content: questionContent,
-      first_option: firstOption,
-      second_option: secondOption,
-    });
-
     const emptyFieldExists = isSomeFieldEmpty([
       questionContent,
       firstOption,
@@ -46,18 +40,24 @@ class QuestionsController {
     ]);
 
     if (emptyFieldExists) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Campos obrigatórios não foram enviados",
         questionCreated: null,
       });
     }
 
     if (!question) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Não foi possível criar a questão",
         questionCreated: null,
       });
     }
+
+    const question = await QuestionsRepository.create({
+      question_content: questionContent,
+      first_option: firstOption,
+      second_option: secondOption,
+    });
 
     return res.status(200).json({
       message: "Questão criada com sucesso",
