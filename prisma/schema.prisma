@@ -33,3 +33,11 @@ model User {
 
   @@map("users")
 }
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  email    String
+  password String
+
+  @@map("admins")
+}
