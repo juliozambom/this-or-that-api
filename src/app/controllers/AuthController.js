@@ -37,7 +37,7 @@ class AuthController {
       });
     }
 
-    const token = createToken({ id: user.id });
+    const token = createToken( user.id, false);
 
     return res.status(200).json({
       message: "Login realizado com sucesso",
@@ -45,7 +45,7 @@ class AuthController {
     });
   }
 
-  async adminLogin(req, res) {
+  async adminLogin(req, res, next) {
     const { email, password } = req.body;
 
     const emptyFieldExists = isSomeFieldEmpty([email, password]);
@@ -77,7 +77,7 @@ class AuthController {
       });
     }
 
-    const token = createToken(adminExists?.id);
+    const token = createToken(adminExists?.id, true);
 
     return res.status(200).json({
       message: "Admin logado com sucesso",

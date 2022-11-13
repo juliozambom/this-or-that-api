@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-function createToken({ id }) {
-  const token = jwt.sign({ id }, process.env.SECRET);
+function createToken( id, isAdmin ) {
+  const token = jwt.sign({ id, isAdmin }, process.env.SECRET);
   return token;
 }
 
