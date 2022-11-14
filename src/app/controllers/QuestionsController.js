@@ -1,6 +1,7 @@
 const QuestionsRepository = require("../repositories/QuestionsRepository");
 const UsersRepository = require("../repositories/UsersRepository");
 const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
+const isSomeFieldFilled = require("../utils/isSomeFieldFilled");
 const UsersController = require("./UsersController");
 
 class QuestionsController {
@@ -79,6 +80,19 @@ class QuestionsController {
     const parseId = Number(id);
 
     const { questionContent, firstOption, secondOption } = req.body;
+
+    const someFieldFilled = isSomeFieldFilled([
+      questionContent,
+      firstOption,
+      secondOption,
+    ]);
+
+    if (!someFieldFilled) {
+      return res.status(400).json({
+        message: "Preencha ao menos um campo para alterar a questão",
+        error: true,
+      });
+    }
 
     const updatedQuestion = await QuestionsRepository.update({
       id: parseId,
