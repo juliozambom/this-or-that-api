@@ -92,11 +92,11 @@ class QuestionsRepository {
     const nonValidatedQuestions = await question.findMany({
       where: {
         is_validated: false,
-        include: {
-          user: {
-            select: {
-              name: true,
-            },
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
           },
         },
       },
