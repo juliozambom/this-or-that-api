@@ -8,6 +8,12 @@ questionRoutes.get("/questions", QuestionsController.index);
 questionRoutes.get("/questions/:id", QuestionsController.show);
 questionRoutes.post("/questions", QuestionsController.store);
 
+//Route to increase count of question choosen count
+questionRoutes.patch(
+  "/questions/:id",
+  QuestionsController.increaseQuestionChoosedCount
+);
+
 //Admin routes
 questionRoutes.put(
   "/questions/:id",
@@ -18,13 +24,6 @@ questionRoutes.delete(
   "/questions/:id",
   AdminPermissionsMiddleware,
   QuestionsController.delete
-);
-
-//Route to increase count of question choosen count
-questionRoutes.patch(
-  "/questions/:id",
-  AdminPermissionsMiddleware,
-  QuestionsController.increaseQuestionChoosedCount
 );
 
 //Route to validate some question
