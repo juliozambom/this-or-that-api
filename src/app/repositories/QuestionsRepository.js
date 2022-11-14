@@ -71,6 +71,16 @@ class QuestionsRepository {
 
     return deletedQuestion;
   }
+
+  async findNonValidatedQuestions() {
+    const nonValidatedQuestions = await question.findMany({
+      where: {
+        is_validated: false,
+      },
+    });
+
+    return nonValidatedQuestions;
+  }
 }
 
 module.exports = new QuestionsRepository();

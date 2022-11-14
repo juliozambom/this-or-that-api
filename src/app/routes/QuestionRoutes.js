@@ -6,6 +6,10 @@ const AdminPermissionsMiddleware = require("../middlewares/AdminPermissionsMiddl
 
 questionRoutes.get("/questions", QuestionsController.index);
 questionRoutes.get("/questions/:id", QuestionsController.show);
+questionRoutes.get(
+  "/unvalidated-questions",
+  QuestionsController.showNonValidatedQuestions
+);
 questionRoutes.post("/questions", QuestionsController.store);
 
 //Route to increase count of question choosen count

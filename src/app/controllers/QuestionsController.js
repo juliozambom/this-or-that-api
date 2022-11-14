@@ -119,6 +119,21 @@ class QuestionsController {
     });
   }
 
+  async showNonValidatedQuestions(req, res) {
+    const nonValidatedQuestions =
+      await QuestionsRepository.findNonValidatedQuestions();
+
+    if (nonValidatedQuestions.length === 0) {
+      return res.status(400).json({
+        message: "Todas as questões enviadas já foram validadas e/ou deletadas",
+      });
+    }
+    return res.status(200).json({
+      message: "Questões não validadas",
+      questions: nonValidatedQuestions,
+    });
+  }
+
   async increaseQuestionChoosedCount(req, res) {
     const { id } = req.params;
     const { optionChoosed } = req.body;
