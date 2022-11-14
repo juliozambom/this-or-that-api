@@ -10,6 +10,10 @@ questionRoutes.get(
   "/unvalidated-questions",
   QuestionsController.showNonValidatedQuestions
 );
+questionRoutes.get(
+  "/validated-questions",
+  QuestionsController.showValidatedQuestions
+);
 questionRoutes.post("/questions", QuestionsController.store);
 
 //Route to increase count of question choosen count

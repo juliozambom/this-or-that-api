@@ -119,9 +119,21 @@ class QuestionsController {
     });
   }
 
+  async showValidatedQuestions(req, res) {
+    const validatedQuestions = await QuestionsRepository.findQuestions(
+      "validated"
+    );
+
+    return res.status(200).json({
+      message: "Questões validadas",
+      questions: validatedQuestions,
+    });
+  }
+
   async showNonValidatedQuestions(req, res) {
-    const nonValidatedQuestions =
-      await QuestionsRepository.findNonValidatedQuestions();
+    const nonValidatedQuestions = await QuestionsRepository.findQuestions(
+      "non-validated"
+    );
 
     if (nonValidatedQuestions.length === 0) {
       return res.status(400).json({

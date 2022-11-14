@@ -72,7 +72,16 @@ class QuestionsRepository {
     return deletedQuestion;
   }
 
-  async findNonValidatedQuestions() {
+  async findQuestions(type) {
+    if (type === "validated") {
+      const validatedQuestions = await question.findMany({
+        where: {
+          is_validated: true,
+        },
+      });
+
+      return validatedQuestions;
+    }
     const nonValidatedQuestions = await question.findMany({
       where: {
         is_validated: false,
