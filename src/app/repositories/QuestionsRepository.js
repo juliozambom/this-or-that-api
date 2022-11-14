@@ -78,6 +78,9 @@ class QuestionsRepository {
         where: {
           is_validated: true,
         },
+        include: {
+          user: true,
+        },
       });
 
       return validatedQuestions;
