@@ -43,6 +43,7 @@ class QuestionsRepository {
     second_option,
     first_option_chosen_count,
     second_option_chosen_count,
+    is_validated,
   }) {
     const updatedQuestion = await question.update({
       where: {
@@ -54,6 +55,7 @@ class QuestionsRepository {
         second_option,
         first_option_chosen_count,
         second_option_chosen_count,
+        is_validated,
       },
     });
 

@@ -27,4 +27,10 @@ questionRoutes.patch(
   QuestionsController.increaseQuestionChoosedCount
 );
 
+//Route to validate some question
+questionRoutes.patch(
+  "/validate-question/:id",
+  AdminPermissionsMiddleware,
+  QuestionsController.validateQuestion
+);
 module.exports = questionRoutes;

@@ -169,6 +169,37 @@ class QuestionsController {
       });
     }
   }
+
+  async validateQuestion(req, res) {
+    const { id } = req.params;
+    const parseId = Number(id);
+
+    const questionExists = await QuestionsRepository.findById(parseId);
+
+    if (!questionExists) {
+      return res.status(400).json({
+        message: "Questão não encontrada",
+        validated: false,
+      });
+    }
+
+    if (questionExists.is_validated) {
+      return res.status(400).json({
+        message: "Questão já validada, não necessita de revalidação",
+        validated: true,
+      });
+    }
+
+    await QuestionsRepository.update({
+      id: parseId,
+      is_validated: true,
+    });
+
+    return res.status(200).json({
+      message: "Questão validada",
+      validated: true,
+    });
+  }
 }
 
 module.exports = new QuestionsController();
