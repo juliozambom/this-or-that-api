@@ -79,7 +79,11 @@ class QuestionsRepository {
           is_validated: true,
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
@@ -88,6 +92,13 @@ class QuestionsRepository {
     const nonValidatedQuestions = await question.findMany({
       where: {
         is_validated: false,
+        include: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
       },
     });
 
