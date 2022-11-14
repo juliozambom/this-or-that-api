@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Question {
-  id                         Int    @id @default(autoincrement())
+  id                         Int     @id @default(autoincrement())
   user_id                    Int
   question                   String
   first_option               String
   second_option              String
-  first_option_chosen_count  Int    @default(0)
-  second_option_chosen_count Int    @default(0)
-  user                       User   @relation(fields: [user_id], references: [id])
+  first_option_chosen_count  Int     @default(0)
+  second_option_chosen_count Int     @default(0)
+  is_validated               Boolean @default(false)
+  user                       User    @relation(fields: [user_id], references: [id])
 
   @@index([user_id], map: "user_id_fk")
   @@map("questions")
