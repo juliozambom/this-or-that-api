@@ -118,6 +118,57 @@ class QuestionsController {
       deletedQuestion,
     });
   }
+
+  async increaseQuestionChoosedCount(req, res) {
+    const { id } = req.params;
+    const { optionChoosed } = req.body;
+    const parseId = Number(id);
+
+    const someFieldEmpty = isSomeFieldEmpty([optionChoosed]);
+
+    if (someFieldEmpty) {
+      return res.status(400).json({
+        message: "Campos obrigatórios não foram enviados",
+        question: null,
+      });
+    }
+    const questionExists = await QuestionsRepository.findById(parseId);
+
+    if (!questionExists) {
+      return res.status(400).json({
+        message: "Questão não encontrada",
+        question: null,
+      });
+    }
+
+    if (optionChoosed == 1) {
+      const increasedQuestion = await QuestionsRepository.update({
+        id: parseId,
+        first_option_chosen_count: questionExists.first_option_chosen_count + 1,
+      });
+
+      return res.status(200).json({
+        message: "Primeira opção escolhida",
+        question: increasedQuestion,
+      });
+    } else if (optionChoosed == 2) {
+      const increasedQuestion = await QuestionsRepository.update({
+        id: parseId,
+        second_option_chosen_count:
+          questionExists.second_option_chosen_count + 1,
+      });
+
+      return res.status(200).json({
+        message: "Segunda opção escolhida",
+        question: increasedQuestion,
+      });
+    } else {
+      return res.status(400).json({
+        message: "Opção inválida",
+        question: null,
+      });
+    }
+  }
 }
 
 module.exports = new QuestionsController();

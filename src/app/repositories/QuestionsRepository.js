@@ -36,7 +36,14 @@ class QuestionsRepository {
     }
   }
 
-  async update({ id, question_content, first_option, second_option }) {
+  async update({
+    id,
+    question_content,
+    first_option,
+    second_option,
+    first_option_chosen_count,
+    second_option_chosen_count,
+  }) {
     const updatedQuestion = await question.update({
       where: {
         id,
@@ -45,6 +52,8 @@ class QuestionsRepository {
         question: question_content,
         first_option,
         second_option,
+        first_option_chosen_count,
+        second_option_chosen_count,
       },
     });
 

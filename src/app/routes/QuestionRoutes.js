@@ -20,4 +20,11 @@ questionRoutes.delete(
   QuestionsController.delete
 );
 
+//Route to increase count of question choosen count
+questionRoutes.patch(
+  "/questions/:id",
+  AdminPermissionsMiddleware,
+  QuestionsController.increaseQuestionChoosedCount
+);
+
 module.exports = questionRoutes;
