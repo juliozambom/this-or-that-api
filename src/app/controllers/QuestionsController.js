@@ -108,10 +108,14 @@ class QuestionsController {
   }
 
   async delete(req, res) {
+    const socket = req.io;
     const { id } = req.params;
     const parseId = Number(id);
 
     const deletedQuestion = await QuestionsRepository.delete(parseId);
+
+    //SOCKET
+    socket.emit("question-deleted", { id });
 
     return res.status(200).json({
       message: "Questão deletada com sucesso",
@@ -198,6 +202,7 @@ class QuestionsController {
   }
 
   async validateQuestion(req, res) {
+    const socket = req.io;
     const { id } = req.params;
     const parseId = Number(id);
 
@@ -221,6 +226,9 @@ class QuestionsController {
       id: parseId,
       is_validated: true,
     });
+    
+    //SOCKET
+    socket.emit("question-validated", { validatedQuestionId: id });
 
     return res.status(200).json({
       message: "Questão validada",
