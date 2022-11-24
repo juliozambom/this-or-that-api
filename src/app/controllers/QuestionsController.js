@@ -112,14 +112,18 @@ class QuestionsController {
     const { id } = req.params;
     const parseId = Number(id);
 
-    const deletedQuestion = await QuestionsRepository.delete(parseId);
+    await QuestionsRepository.delete(parseId);
+
+    const questionsRemaining = await QuestionsRepository.findQuestions(
+      "non-validated"
+    );
 
     //SOCKET
-    socket.emit("question-deleted", { id });
+    socket.emit("question-deleted", { questionsRemaining });
 
     return res.status(200).json({
       message: "Questão deletada com sucesso",
-      deletedQuestion,
+      questionsRemaining
     });
   }
 
@@ -226,13 +230,17 @@ class QuestionsController {
       id: parseId,
       is_validated: true,
     });
+
+    const questionsRemaining = await QuestionsRepository.findQuestions(
+      "non-validated"
+    );
     
     //SOCKET
-    socket.emit("question-validated", { validatedQuestionId: id });
+    socket.emit("question-validated", { questionsRemaining });
 
     return res.status(200).json({
       message: "Questão validada",
-      validated: true,
+      questionsRemaining
     });
   }
 }
