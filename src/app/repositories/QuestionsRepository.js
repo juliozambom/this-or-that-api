@@ -3,7 +3,15 @@ const { question } = new PrismaClient();
 
 class QuestionsRepository {
   async findAll() {
-    const questions = await question.findMany();
+    const questions = await question.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+          }
+        }
+      }
+    });
 
     return questions;
   }
@@ -13,6 +21,13 @@ class QuestionsRepository {
       where: {
         id,
       },
+      include: {
+        user: {
+          select: {
+            name: true
+          }
+        }
+      }
     });
 
     return questionExists;
@@ -27,6 +42,13 @@ class QuestionsRepository {
           second_option,
           user_id,
         },
+        include: {
+          user: {
+            select: {
+              name: true,
+            }
+          }
+        }
       });
 
       return questionCreated;
