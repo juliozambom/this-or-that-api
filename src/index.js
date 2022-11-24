@@ -33,9 +33,9 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => res.send("This or That 🔴🔵"));
 
 app.use(authRoutes);
+app.use(usersRoutes);
 
 app.use(AuthMiddleware);
-app.use(usersRoutes);
 app.use(questionsRoutes);
 
 const PORT = process.env.PORT || 5000;
