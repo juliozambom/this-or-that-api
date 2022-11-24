@@ -11,7 +11,6 @@ const authRoutes = require("./app/routes/AuthRoutes");
 const questionsRoutes = require("./app/routes/QuestionRoutes");
 const usersRoutes = require("./app/routes/UsersRoutes");
 const AuthMiddleware = require("./app/middlewares/AuthMiddleware");
-const AdminPermissionsMiddleware = require("./app/middlewares/AdminPermissionsMiddleware");
 
 const io = new Server(server, {
   cors: {
@@ -32,15 +31,12 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => res.send("This or That 🔴🔵"));
+
 app.use(authRoutes);
 
-//Users routes
 app.use(AuthMiddleware);
-app.use(questionsRoutes);
-
-//Admin routes
-app.use(AdminPermissionsMiddleware);
 app.use(usersRoutes);
+app.use(questionsRoutes);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log("🔴 Server Running 🔵"));
