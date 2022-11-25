@@ -40,4 +40,8 @@ questionRoutes.patch(
   AdminPermissionsMiddleware,
   QuestionsController.validateQuestion
 );
+
+//Route to get the questions the user didn't played
+questionRoutes.get('/available-questions', QuestionsController.findAvailableQuestions);
+
 module.exports = questionRoutes;

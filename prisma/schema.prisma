@@ -26,11 +26,12 @@ model Question {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  name     String
-  email    String
-  password String
-  Question Question[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String
+  password      String
+  Question      Question[]
+  UserQuestions UserQuestion[]
 
   @@map("users")
 }
@@ -41,4 +42,14 @@ model Admin {
   password String
 
   @@map("admins")
+}
+
+model UserQuestion {
+  id               Int    @id @default(autoincrement())
+  user_id          Int
+  questions_played String
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("user_questions")
 }
