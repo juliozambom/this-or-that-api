@@ -160,6 +160,9 @@ class QuestionsController {
     const { optionChoosed } = req.body;
     const parseId = Number(id);
 
+    const userId = req.userId;
+    const parseUserId = Number(userId);
+
     const someFieldEmpty = isSomeFieldEmpty([optionChoosed]);
 
     if (someFieldEmpty) {
@@ -179,49 +182,50 @@ class QuestionsController {
 
     try {
       //Getting the array of questions already played by this user, saved in database as a string
-      const [{ questions_played: questionsPlayed }] = await UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
+      const [{ questions_played: questionsPlayed }] = await UserQuestionsRepository.findQuestionsAlreadyPlayed(parseUserId);
 
       //Now I am parsing the string to get array
       const parseQuestions = JSON.parse(questionsPlayed);
 
+      //Merging the new question played to older questions played by the user
       const questionsPlayedUpdated = [...parseQuestions, id];
 
-      const updatedQuestionsPlayed = await UserQuestionsRepository.update({
-        user_id: parseId,
+      //Updating questions played
+      await UserQuestionsRepository.update({
+        user_id: parseUserId,
         questions_played: JSON.stringify(questionsPlayedUpdated)
       })
 
-      console.log(updatedQuestionsPlayed);
+      if (optionChoosed == 1) {
+        const increasedQuestion = await QuestionsRepository.update({
+          id: parseId,
+          first_option_chosen_count: questionExists.first_option_chosen_count + 1,
+        });
+  
+        return res.status(200).json({
+          message: "Primeira opção escolhida",
+          question: increasedQuestion,
+        });
+      } else if (optionChoosed == 2) {
+        const increasedQuestion = await QuestionsRepository.update({
+          id: parseId,
+          second_option_chosen_count:
+            questionExists.second_option_chosen_count + 1,
+        });
+  
+        return res.status(200).json({
+          message: "Segunda opção escolhida",
+          question: increasedQuestion,
+        });
+      } else {
+        return res.status(400).json({
+          message: "Opção inválida",
+          question: null,
+        });
+      }
+
     } catch (error) {
-      console.log(error)
-    }
-
-    if (optionChoosed == 1) {
-      const increasedQuestion = await QuestionsRepository.update({
-        id: parseId,
-        first_option_chosen_count: questionExists.first_option_chosen_count + 1,
-      });
-
-      return res.status(200).json({
-        message: "Primeira opção escolhida",
-        question: increasedQuestion,
-      });
-    } else if (optionChoosed == 2) {
-      const increasedQuestion = await QuestionsRepository.update({
-        id: parseId,
-        second_option_chosen_count:
-          questionExists.second_option_chosen_count + 1,
-      });
-
-      return res.status(200).json({
-        message: "Segunda opção escolhida",
-        question: increasedQuestion,
-      });
-    } else {
-      return res.status(400).json({
-        message: "Opção inválida",
-        question: null,
-      });
+      return res.sendStatus(500);
     }
   }
 
