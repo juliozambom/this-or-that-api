@@ -264,6 +264,15 @@ class QuestionsController {
         return !parseQuestions.includes(question.id)
       })
 
+      // If the array returns empty, it means that the user already played all the questions in the game,
+      // the code below returns a warning about this
+      if(availableQuestions.length === 0) {
+        return res.status(404).json({
+          message: 'Você já jogou todas as perguntas do jogo',
+          questions: null
+        })
+      }
+
       //Returning only the questions the user didn't played
       return res.status(200).json({
         message: 'Questões ainda não jogadas encontradas',
