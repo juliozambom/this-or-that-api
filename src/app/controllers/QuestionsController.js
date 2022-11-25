@@ -1,4 +1,5 @@
 const QuestionsRepository = require("../repositories/QuestionsRepository");
+const UserQuestionsRepository = require("../repositories/UserQuestionsRepository");
 const UsersRepository = require("../repositories/UsersRepository");
 const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
 const isSomeFieldFilled = require("../utils/isSomeFieldFilled");
@@ -242,6 +243,15 @@ class QuestionsController {
       message: "Questão validada",
       questionsRemaining
     });
+  }
+
+  async findAvailableQuestions(req, res) {
+    const userId = req.userId;
+    const parseId = Number(userId);
+
+    const questionsPlayed = UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
+
+    console.log(questionsPlayed);
   }
 }
 

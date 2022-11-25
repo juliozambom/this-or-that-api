@@ -26,12 +26,12 @@ model Question {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
   email         String
   password      String
   Question      Question[]
-  UserQuestions UserQuestions[]
+  UserQuestions UserQuestion[]
 
   @@map("users")
 }
@@ -44,7 +44,7 @@ model Admin {
   @@map("admins")
 }
 
-model UserQuestions {
+model UserQuestion {
   id               Int    @id @default(autoincrement())
   user_id          Int
   questions_played String

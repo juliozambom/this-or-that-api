@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const isSomeFieldEmpty = require("../utils/isSomeFieldEmpty");
 
 const UsersRepository = require("../repositories/UsersRepository");
+const UserQuestionsRepository = require("../repositories/UserQuestionsRepository");
 
 class UsersController {
   async index(req, res) {
@@ -59,6 +60,8 @@ class UsersController {
         createdUser: null,
       });
     }
+
+    await UserQuestionsRepository.create(createdUser.id);
 
     return res.status(200).json({
       message: "Usuário criado com sucesso",
