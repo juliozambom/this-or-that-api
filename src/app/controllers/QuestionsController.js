@@ -184,9 +184,16 @@ class QuestionsController {
       //Now I am parsing the string to get array
       const parseQuestions = JSON.parse(questionsPlayed);
 
-      
+      const questionsPlayedUpdated = [...parseQuestions, id];
+
+      const updatedQuestionsPlayed = await UserQuestionsRepository.update({
+        user_id: parseId,
+        questions_played: JSON.stringify(questionsPlayedUpdated)
+      })
+
+      console.log(updatedQuestionsPlayed);
     } catch (error) {
-      
+      console.log(error)
     }
 
     if (optionChoosed == 1) {
@@ -273,7 +280,7 @@ class QuestionsController {
 
       //Taking off the array all the questions the user already played
       const availableQuestions = allQuestions.filter((question) => { 
-        return !parseQuestions.includes(question.id)
+        return !parseQuestions.includes(String(question.id))
       })
 
       // If the array returns empty, it means that the user already played all the questions in the game,

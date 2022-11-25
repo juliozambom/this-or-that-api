@@ -12,14 +12,16 @@ class UserQuestionsRepository {
     }
 
     async update({ user_id, questions_played }) {
-        await userQuestion.update({
+        const updatedUserQuestion = await userQuestion.updateMany({
             where: {
                 user_id,
             },
             data: {
                 questions_played,
-            }
+            },
         });
+
+        return updatedUserQuestion;
     }
 
     async findQuestionsAlreadyPlayed(id) {
