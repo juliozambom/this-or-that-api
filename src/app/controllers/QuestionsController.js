@@ -249,9 +249,30 @@ class QuestionsController {
     const userId = req.userId;
     const parseId = Number(userId);
 
-    const questionsPlayed = UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
+    try {
+      //Getting the array of questions already played by this user, saved in database as a string
+      const [{ questions_played: questionsPlayed }] = await UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
 
-    console.log(questionsPlayed);
+      //Now I am parsing the string to get a real array
+      const parseQuestions = JSON.parse(questionsPlayed);
+
+      //Getting all validated questions
+      const allQuestions = await QuestionsRepository.findQuestions('validated');
+
+      //Taking off all the questions the user already played
+      const availableQuestions = allQuestions.filter((question) => { 
+        return !parseQuestions.includes(question.id)
+      })
+
+      //Returning only the questions the user didn't played
+      return res.status(200).json({
+        message: 'Questões ainda não jogadas encontradas',
+        questions: availableQuestions
+      })
+
+    } catch (error) {
+      return res.sendStatus(500);
+    }
   }
 }
 

@@ -13,12 +13,12 @@ class UserQuestionsRepository {
 
     async findQuestionsAlreadyPlayed(id) {
         try {
-            const questionsPlayed = userQuestion.findFirst({
+            const questionsPlayed = userQuestion.findMany({
                 where: {
                     user_id: id
                 },
                 select: {
-                    questions_played
+                    questions_played: true
                 }
             });
     
