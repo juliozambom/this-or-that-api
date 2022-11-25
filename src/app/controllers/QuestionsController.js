@@ -253,13 +253,13 @@ class QuestionsController {
       //Getting the array of questions already played by this user, saved in database as a string
       const [{ questions_played: questionsPlayed }] = await UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
 
-      //Now I am parsing the string to get a real array
+      //Now I am parsing the string to get array
       const parseQuestions = JSON.parse(questionsPlayed);
 
       //Getting all validated questions
       const allQuestions = await QuestionsRepository.findQuestions('validated');
 
-      //Taking off all the questions the user already played
+      //Taking off the array all the questions the user already played
       const availableQuestions = allQuestions.filter((question) => { 
         return !parseQuestions.includes(question.id)
       })
