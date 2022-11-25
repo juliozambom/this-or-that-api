@@ -177,6 +177,18 @@ class QuestionsController {
       });
     }
 
+    try {
+      //Getting the array of questions already played by this user, saved in database as a string
+      const [{ questions_played: questionsPlayed }] = await UserQuestionsRepository.findQuestionsAlreadyPlayed(parseId);
+
+      //Now I am parsing the string to get array
+      const parseQuestions = JSON.parse(questionsPlayed);
+
+      
+    } catch (error) {
+      
+    }
+
     if (optionChoosed == 1) {
       const increasedQuestion = await QuestionsRepository.update({
         id: parseId,

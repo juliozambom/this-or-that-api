@@ -2,11 +2,22 @@ const { PrismaClient } = require('@prisma/client');
 const { userQuestion }  = new PrismaClient();
 
 class UserQuestionsRepository {
-    async create(id) {
+    async create(user_id) {
         await userQuestion.create({
             data: {
-                user_id: id,
+                user_id,
                 questions_played: "[]"
+            }
+        });
+    }
+
+    async update({ user_id, questions_played }) {
+        await userQuestion.update({
+            where: {
+                user_id,
+            },
+            data: {
+                questions_played,
             }
         });
     }
